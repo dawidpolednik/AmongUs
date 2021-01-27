@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <title>Gra typu AmongUs</title>
+  </head>
+  <body>
+    <section class="page-container">
+      <div class="layout-container">
+        <div class="steps-container">
+          <label class="steps__title" for="steps-select" required
+            >Wybierz liczbę kroków:</label
+          >
+          <div class="custom-select">
+            <select name="steps" id="steps-select">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5" selected="selected">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
+        <div class="board-container">
+          <div class="box">
+            <div class="fields-container">
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+              <button class="field"></button>
+            </div>
+          </div>
+          <div class="box">
+            <div class="fields-container">
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+              <button class="field active"></button>
+            </div>
+          </div>
+        </div>
+        <div class="buttons-container">
+          <button class="button start">Start</button>
+          <button class="button reset">Resetuj</button>
+        </div>
+      </div>
+    </section>
+    <script src="index.ts"></script>
+  </body>
+</html>
