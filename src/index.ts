@@ -1,10 +1,15 @@
 import './styles/scss/main.scss';
-import { Pannel } from './ts/components/Panel/Panel';
+
 import '../src/styles/images/background.jpg';
 
-console.log('helooo');
+import { Game } from './ts/components/Game/Game';
 
-const pannel = new Pannel();
+const game = new Game();
 
-pannel.position = 5;
-console.log('pannel.position :>> ', pannel.position);
+const startButton: HTMLButtonElement = document.getElementById(
+  'button-start'
+) as HTMLButtonElement;
+
+startButton.addEventListener('click', () => {
+  game.startGame();
+});
