@@ -8,7 +8,13 @@ interface IGame {
 const numberOfItems = 16;
 
 export class Game implements IGame {
-  public numberOfSteps: number;
+  private selectElement = <HTMLSelectElement>(
+    document.getElementById('steps-select')
+  );
+
+  public numberOfSteps: number = Number(
+    this.selectElement.options[this.selectElement.selectedIndex].value
+  ));
 
   public listOfSteps: number[] = [];
 
@@ -43,10 +49,6 @@ export class Game implements IGame {
     list.push(newIndex);
 
   resetGame = () => {};
-
-  private selectElement = <HTMLSelectElement>(
-    document.getElementById('steps-select')
-  );
 
   handleChangeSteps = this.selectElement.addEventListener('change', e => {
     this.numberOfSteps = Number(
