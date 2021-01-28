@@ -110,6 +110,10 @@ select {
 
 .field-pattern {
   background-color: rgb(109, 107, 107);
+
+  &.active {
+    background-color: rgb(170, 194, 37);
+  }
 }
 
 .field-game {
