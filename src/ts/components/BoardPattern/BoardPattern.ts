@@ -1,17 +1,9 @@
-interface IBoardPattern {
-  numberOfSteps: number;
-  listOfSteps: number[];
-}
-
-interface IButtonData {
-  childElement: Element;
-  attribute: number;
-}
+import { IBoard, IButtonData } from '../../models/models';
 
 const ACTIVE = 'active';
 const INITIAL_CLASSNAME = 'field-pattern';
 
-export class BoardPattern implements IBoardPattern {
+export class BoardPattern implements IBoard {
   public listOfSteps: number[] = [];
   public numberOfSteps: number;
   constructor(numberOfSteps: number, listOfSteps: number[]) {
