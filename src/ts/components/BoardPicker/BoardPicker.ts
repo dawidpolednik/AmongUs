@@ -49,10 +49,17 @@ export class BoardPicker implements IBoard {
             listOfSteps
           );
 
+          console.log('this.listOfPicks.length :>> ', this.listOfPicks.length);
+          console.log('listOfSteps.length :>> ', listOfSteps.length);
+          console.log('isUserCorrectPick :>> ', isUserCorrectPick);
           if (
             this.listOfPicks.length === listOfSteps.length &&
             isUserCorrectPick
           ) {
+            this.resetData();
+            childElement.dispatchEvent(
+              new CustomEvent('nextRound', { bubbles: true, detail: true })
+            );
           }
         }
       });
@@ -102,6 +109,11 @@ export class BoardPicker implements IBoard {
 
       this.resetBoardPickerHighlights();
       console.log('źle');
+
+      this.resetData();
+      childElement.dispatchEvent(
+        new CustomEvent('nextRound', { bubbles: true, detail: false })
+      );
       return false;
     }
   };

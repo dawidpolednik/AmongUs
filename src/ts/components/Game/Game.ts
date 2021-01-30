@@ -6,9 +6,11 @@ interface IGame {
 }
 
 export class Game implements IGame {
-  private selectElement = <HTMLSelectElement>(
-    document.getElementById('steps-select')
-  );
+  private selectElement = document.getElementById(
+    'steps-select'
+  ) as HTMLSelectElement;
+
+  private boxElement = document.querySelector('box') as HTMLDivElement;
 
   public numberOfSteps: number = Number(
     this.selectElement.options[this.selectElement.selectedIndex].value
@@ -18,20 +20,25 @@ export class Game implements IGame {
 
   public listOfPicks: number[] = [];
 
-  constructor() {
-    this.handleChangeSteps;
-  }
-
   private boardPattern = new BoardPattern(this.numberOfSteps);
 
   private boardPicker = new BoardPicker(this.numberOfSteps);
 
   startGame = () => {
     if (this.boardPattern.listOfSteps.length < this.numberOfSteps) {
-      this.boardPattern.initRound();
+      this.startRound();
 
-      this.boardPicker.handleForUserSelectItems(this.boardPattern.listOfSteps);
+      document.addEventListener('nextRound', (e: any) =>
+        e.detail
+          ? setTimeout(() => this.startRound(), 1000)
+          : console.log('przegrales')
+      );
     }
+  };
+
+  startRound = () => {
+    this.boardPattern.initRound();
+    this.boardPicker.handleForUserSelectItems(this.boardPattern.listOfSteps);
   };
 
   resetGame = () => {

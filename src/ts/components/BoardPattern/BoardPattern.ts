@@ -43,8 +43,6 @@ export class BoardPattern implements IBoard {
     this.showElementsWithIndexLevel();
   };
 
-  public initNextRound = () => {};
-
   public resetData = () => {
     this.listOfSteps = [];
   };
