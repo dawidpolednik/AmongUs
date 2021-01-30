@@ -1,6 +1,6 @@
 export interface IBoard {
   numberOfSteps: number;
-  listOfSteps: number[];
+  // listOfSteps: number[];
 }
 
 export interface IButtonData {

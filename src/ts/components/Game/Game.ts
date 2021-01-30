@@ -5,8 +5,6 @@ interface IGame {
   numberOfSteps: number;
 }
 
-const numberOfItems = 16;
-
 export class Game implements IGame {
   private selectElement = <HTMLSelectElement>(
     document.getElementById('steps-select')
@@ -24,31 +22,27 @@ export class Game implements IGame {
     this.handleChangeSteps;
   }
 
+  private boardPattern = new BoardPattern(this.numberOfSteps);
+
+  private boardPicker = new BoardPicker(this.numberOfSteps);
+
   startGame = () => {
-    const boardPattern = new BoardPattern(this.numberOfSteps, this.listOfSteps);
+    console.log(
+      'this.boardPattern.listOfSteps :>> ',
+      this.boardPattern.listOfSteps
+    );
+    if (this.boardPattern.listOfSteps.length < this.numberOfSteps) {
+      this.boardPattern.initRound();
 
-    const boardPicker = new BoardPicker(this.numberOfSteps, this.listOfSteps);
-
-    // for (let i = 0; i < this.numberOfSteps; i++) {
-    if (this.listOfSteps.length <= this.numberOfSteps) {
-      this.addIndexLevelToListOfSteps(this.listOfSteps, this.setIndexLevel());
-
-      boardPattern.showElementsWithIndexLevel();
-
-      boardPicker.handleForUserSelectItems();
-
-      console.log(' boardPicker.listOfPicks :>> ', boardPicker.listOfPicks);
-      // }
+      this.boardPicker.handleForUserSelectItems(this.boardPattern.listOfSteps);
     }
   };
 
-  setIndexLevel = () => Math.floor(Math.random() * numberOfItems) + 1;
-
-  addIndexLevelToListOfSteps = (list: number[], newIndex: number) =>
-    list.push(newIndex);
-
   resetGame = () => {
-    this.listOfSteps = [];
+    this.selectElement.removeAttribute('disabled');
+    this.selectElement.selectedIndex = 4;
+    this.boardPattern.resetData();
+    this.boardPicker.resetData();
   };
 
   handleChangeSteps = this.selectElement.addEventListener('change', e => {

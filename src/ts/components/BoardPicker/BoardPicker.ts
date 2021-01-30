@@ -7,13 +7,11 @@ const CORRECT_PICK = 'correct';
 const WRONG_PICK = 'wrong';
 
 export class BoardPicker implements IBoard {
-  public listOfSteps: number[];
   public numberOfSteps: number;
   public listOfPicks: number[] = [];
 
-  constructor(numberOfSteps: number, listOfSteps: number[]) {
+  constructor(numberOfSteps: number) {
     this.numberOfSteps = numberOfSteps;
-    this.listOfSteps = listOfSteps;
   }
 
   private allButtonsNode = document.querySelectorAll('.field-game');
@@ -29,8 +27,8 @@ export class BoardPicker implements IBoard {
     }
   );
 
-  private setStylesWhenRoundStart = () => {
-    if (this.listOfPicks.length < this.listOfSteps.length) {
+  private setStylesWhenRoundStart = (listOfSteps: number[]) => {
+    if (this.listOfPicks.length < listOfSteps.length) {
       this.listOfButtonsWithAttributes.forEach(({ childElement }) => {
         childElement.addEventListener('mouseover', () => {
           childElement.className += ' hoverElement';
@@ -39,12 +37,12 @@ export class BoardPicker implements IBoard {
     }
   };
 
-  public handleForUserSelectItems = () => {
+  public handleForUserSelectItems = (listOfSteps: number[]) => {
     this.listOfButtonsWithAttributes.forEach(({ childElement, attribute }) => {
       childElement.className = INITIAL_CLASSNAME;
       childElement.addEventListener('click', () => {
-        if (this.listOfPicks.length < this.listOfSteps.length) {
-          return this.checkCorrectPick(childElement, attribute);
+        if (this.listOfPicks.length < listOfSteps.length) {
+          return this.checkCorrectPick(childElement, attribute, listOfSteps);
         }
       });
     });
@@ -72,20 +70,14 @@ export class BoardPicker implements IBoard {
 
   private checkCorrectPick = (
     childElement: Element,
-    attribute: number
+    attribute: number,
+    listOfSteps: number[]
   ): boolean => {
     this.addPickToCheck(attribute);
-    // console.log(
-    //   'this.checkIndexPick(this.listOfPicks,attribute) :>> ',
-    //   this.checkIndexPick(this.listOfPicks, attribute)
-    // );
-    // console.log(
-    //   'this.checkIndexPick(this.listOfSteps,attribute :>> ',
-    //   this.checkIndexPick(this.listOfSteps, attribute)
-    // );
+
     if (
-      this.listOfSteps.includes(attribute) &&
-      this.checkIndexPick(this.listOfSteps, attribute) ===
+      listOfSteps.includes(attribute) &&
+      this.checkIndexPick(listOfSteps, attribute) ===
         this.checkIndexPick(this.listOfPicks, attribute)
     ) {
       console.log('dobrze');
@@ -102,5 +94,9 @@ export class BoardPicker implements IBoard {
       console.log('źle');
       return false;
     }
+  };
+
+  public resetData = () => {
+    this.listOfPicks = [];
   };
 }

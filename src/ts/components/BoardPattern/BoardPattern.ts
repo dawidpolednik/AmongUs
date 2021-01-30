@@ -3,13 +3,13 @@ import { IBoard, IButtonData } from '../../models/models';
 const ACTIVE = 'active';
 const INITIAL_CLASSNAME = 'field-pattern';
 
+const numberOfItems = 16;
 export class BoardPattern implements IBoard {
-  public listOfSteps: number[];
   public numberOfSteps: number;
+  public listOfSteps: number[] = [];
 
-  constructor(numberOfSteps: number, listOfSteps: number[]) {
+  constructor(numberOfSteps: number) {
     this.numberOfSteps = numberOfSteps;
-    this.listOfSteps = listOfSteps;
   }
 
   private listOfButtons = [...document.querySelectorAll('.field-pattern')];
@@ -23,14 +23,30 @@ export class BoardPattern implements IBoard {
     }
   );
 
+  setIndexLevel = () => Math.floor(Math.random() * numberOfItems) + 1;
+
+  addIndexLevelToListOfSteps = (newIndexLevel: number) =>
+    this.listOfSteps.push(newIndexLevel);
+
   showElementsWithIndexLevel = () => {
-    console.log(' this.listOfSteps :>> ', this.listOfSteps);
     this.listOfSteps.forEach(indexLevel => {
       this.setButtonToHiglight(indexLevel);
       setTimeout(() => {
         this.resetBoardPatternHighlights();
       }, 500);
     });
+  };
+
+  public initRound = () => {
+    const indexLevel = this.setIndexLevel();
+    this.addIndexLevelToListOfSteps(indexLevel);
+    this.showElementsWithIndexLevel();
+  };
+
+  public initNextRound = () => {};
+
+  public resetData = () => {
+    this.listOfSteps = [];
   };
 
   searchButtonToHighlight = (indexLevel: number) =>
