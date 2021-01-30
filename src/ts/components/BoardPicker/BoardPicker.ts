@@ -41,8 +41,8 @@ export class BoardPicker implements IBoard {
     this.listOfButtonsWithAttributes.forEach(({ childElement, attribute }) => {
       childElement.className = INITIAL_CLASSNAME;
       childElement.addEventListener('click', () => {
-        if (this.listOfPicks.length < listOfSteps.length) {
-          return this.checkCorrectPick(childElement, attribute, listOfSteps);
+        if (this.listOfPicks.length <= listOfSteps.length) {
+          this.checkCorrectPick(childElement, attribute, listOfSteps);
         }
       });
     });
