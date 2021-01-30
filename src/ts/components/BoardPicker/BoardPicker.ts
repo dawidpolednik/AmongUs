@@ -41,15 +41,25 @@ export class BoardPicker implements IBoard {
     this.listOfButtonsWithAttributes.forEach(({ childElement, attribute }) => {
       childElement.className = INITIAL_CLASSNAME;
       childElement.addEventListener('click', () => {
+        console.log('listOfSteps :>> ', listOfSteps);
         if (this.listOfPicks.length <= listOfSteps.length) {
-          this.checkCorrectPick(childElement, attribute, listOfSteps);
+          const isUserCorrectPick = this.checkCorrectPick(
+            childElement,
+            attribute,
+            listOfSteps
+          );
+
+          if (
+            this.listOfPicks.length === listOfSteps.length &&
+            isUserCorrectPick
+          ) {
+          }
         }
       });
     });
   };
 
   private addPickToCheck = (attribute: number) => {
-    // console.log('attribute :>> ', attribute);
     this.listOfPicks.push(attribute);
   };
 
@@ -60,7 +70,7 @@ export class BoardPicker implements IBoard {
     childElement.className += ` ${className}`;
   };
 
-  private resetBoardPatternHighlights = () => {
+  private resetBoardPickerHighlights = () => {
     setTimeout(() => {
       this.listOfButtonsWithAttributes.map(
         ({ childElement }) => (childElement.className = INITIAL_CLASSNAME)
@@ -74,7 +84,7 @@ export class BoardPicker implements IBoard {
     listOfSteps: number[]
   ): boolean => {
     this.addPickToCheck(attribute);
-
+    console.log('this.listOfPicks :>> ', this.listOfPicks);
     if (
       listOfSteps.includes(attribute) &&
       this.checkIndexPick(listOfSteps, attribute) ===
@@ -84,13 +94,13 @@ export class BoardPicker implements IBoard {
 
       this.setButtonToHiglight(childElement, CORRECT_PICK);
 
-      this.resetBoardPatternHighlights();
+      this.resetBoardPickerHighlights();
 
       return true;
     } else {
       this.setButtonToHiglight(childElement, WRONG_PICK);
 
-      this.resetBoardPatternHighlights();
+      this.resetBoardPickerHighlights();
       console.log('źle');
       return false;
     }

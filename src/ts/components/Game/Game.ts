@@ -27,10 +27,6 @@ export class Game implements IGame {
   private boardPicker = new BoardPicker(this.numberOfSteps);
 
   startGame = () => {
-    console.log(
-      'this.boardPattern.listOfSteps :>> ',
-      this.boardPattern.listOfSteps
-    );
     if (this.boardPattern.listOfSteps.length < this.numberOfSteps) {
       this.boardPattern.initRound();
 
