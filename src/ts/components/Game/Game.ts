@@ -23,22 +23,18 @@ export class Game implements IGame {
   }
 
   startGame = () => {
-    this.addIndexLevelToListOfSteps(this.listOfSteps, this.setIndexLevel());
+    const boardPattern = new BoardPattern(this.numberOfSteps, this.listOfSteps);
 
+    const boardGame = new BoardPicker(this.numberOfSteps, this.listOfSteps);
+
+    // for (let i = 0; i < this.numberOfSteps; i++) {
     if (this.listOfSteps.length <= this.numberOfSteps) {
-      const boardPattern = new BoardPattern(
-        this.numberOfSteps,
-        this.listOfSteps
-      );
+      this.addIndexLevelToListOfSteps(this.listOfSteps, this.setIndexLevel());
 
-      const boardGame = new BoardPicker(this.numberOfSteps, this.listOfSteps);
+      boardPattern.showElementsWithIndexLevel();
 
-      console.log('  this.listOfSteps, :>> ', this.listOfSteps);
-
-      boardPattern.showElementWithIndexLevel();
-
-      boardGame.handleForUserSelectItem();
-      console.log('start');
+      boardGame.handleForUserSelectItems();
+      // }
     }
   };
 
@@ -47,7 +43,9 @@ export class Game implements IGame {
   addIndexLevelToListOfSteps = (list: number[], newIndex: number) =>
     list.push(newIndex);
 
-  resetGame = () => {};
+  resetGame = () => {
+    this.listOfSteps = [];
+  };
 
   handleChangeSteps = this.selectElement.addEventListener('change', e => {
     this.numberOfSteps = Number(

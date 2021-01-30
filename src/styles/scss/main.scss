@@ -1,5 +1,7 @@
 @import './fonts.scss';
 @import './colors.scss';
+@import './winnerPopup.scss';
+
 *,
 html {
   padding: 0;
@@ -14,7 +16,7 @@ html {
 
 body {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .page-container {
@@ -120,8 +122,21 @@ select {
   background-color: $white;
 
   &:hover {
-    background-color: rgba(rgb(55, 85, 55), $alpha: 0.2);
+    background-color: rgba(170, 194, 37, $alpha: 0.4);
     cursor: pointer;
+  }
+
+  // &.hoverElement:hover {
+  //   background-color: rgba(rgb(84, 177, 9), $alpha: 0.2);
+  //   cursor: pointer;
+  // }
+
+  &.correct {
+    background-color: $green;
+  }
+
+  &.wrong {
+    background-color: $red;
   }
 }
 
@@ -149,10 +164,10 @@ select {
   outline: none;
 
   &.start {
-    background-color: #18ac18;
+    background-color: $green;
   }
   &.reset {
-    background-color: #8f1c2f;
+    background-color: $red;
   }
   &:hover {
     opacity: 0.5;

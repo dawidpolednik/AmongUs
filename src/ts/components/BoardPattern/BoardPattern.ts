@@ -22,10 +22,10 @@ export class BoardPattern implements IBoard {
     }
   );
 
-  showElementWithIndexLevel = () => {
-    this.listOfSteps.map(indexLevel => {
+  showElementsWithIndexLevel = () => {
+    console.log(' this.listOfSteps :>> ', this.listOfSteps);
+    this.listOfSteps.forEach(indexLevel => {
       this.setButtonToHiglight(indexLevel);
-
       setTimeout(() => {
         this.resetBoardPatternHighlights();
       }, 500);
@@ -48,4 +48,6 @@ export class BoardPattern implements IBoard {
       ({ childElement }) => (childElement.className = INITIAL_CLASSNAME)
     );
   };
+
+  // public showAllStepsInRound =
 }

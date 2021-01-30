@@ -1,0 +1,41 @@
+@import './colors.scss';
+@import './fonts.scss';
+
+.win-popup {
+  display: none;
+  position: absolute;
+  //   display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 350px;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url('../images//background2.jpg');
+  border: 0.5px solid $white;
+}
+
+.win-title {
+  font-size: 50px;
+  color: $white;
+  padding-top: 25px;
+  font-family: 'Montserrat-Regular', sans-serif;
+  text-align: center;
+}
+
+.win-content {
+  font-size: 35px;
+  color: $white;
+  padding-top: 60px;
+  font-family: 'Montserrat-Light', sans-serif;
+  text-align: center;
+}
+
+.button-container {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
