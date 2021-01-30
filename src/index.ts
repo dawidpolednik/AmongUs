@@ -15,6 +15,7 @@ const resetButton: HTMLButtonElement = document.getElementById(
 ) as HTMLButtonElement;
 
 startButton.addEventListener('click', () => {
+  document.getElementById('steps-select').setAttribute('disabled', 'disabled');
   game.startGame();
 });
 

@@ -18,6 +18,8 @@ export class Game implements IGame {
 
   public listOfSteps: number[] = [];
 
+  public listOfPicks: number[] = [];
+
   constructor() {
     this.handleChangeSteps;
   }
@@ -25,7 +27,7 @@ export class Game implements IGame {
   startGame = () => {
     const boardPattern = new BoardPattern(this.numberOfSteps, this.listOfSteps);
 
-    const boardGame = new BoardPicker(this.numberOfSteps, this.listOfSteps);
+    const boardPicker = new BoardPicker(this.numberOfSteps, this.listOfSteps);
 
     // for (let i = 0; i < this.numberOfSteps; i++) {
     if (this.listOfSteps.length <= this.numberOfSteps) {
@@ -33,7 +35,9 @@ export class Game implements IGame {
 
       boardPattern.showElementsWithIndexLevel();
 
-      boardGame.handleForUserSelectItems();
+      boardPicker.handleForUserSelectItems();
+
+      console.log(' boardPicker.listOfPicks :>> ', boardPicker.listOfPicks);
       // }
     }
   };

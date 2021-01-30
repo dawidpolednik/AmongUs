@@ -4,8 +4,9 @@ const ACTIVE = 'active';
 const INITIAL_CLASSNAME = 'field-pattern';
 
 export class BoardPattern implements IBoard {
-  public listOfSteps: number[] = [];
+  public listOfSteps: number[];
   public numberOfSteps: number;
+
   constructor(numberOfSteps: number, listOfSteps: number[]) {
     this.numberOfSteps = numberOfSteps;
     this.listOfSteps = listOfSteps;

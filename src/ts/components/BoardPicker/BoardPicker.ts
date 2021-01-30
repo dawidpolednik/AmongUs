@@ -7,7 +7,7 @@ const CORRECT_PICK = 'correct';
 const WRONG_PICK = 'wrong';
 
 export class BoardPicker implements IBoard {
-  public listOfSteps: number[] = [];
+  public listOfSteps: number[];
   public numberOfSteps: number;
   public listOfPicks: number[] = [];
 
@@ -44,7 +44,7 @@ export class BoardPicker implements IBoard {
       childElement.className = INITIAL_CLASSNAME;
       childElement.addEventListener('click', () => {
         if (this.listOfPicks.length < this.listOfSteps.length) {
-          this.checkCorrectPick(childElement, attribute);
+          return this.checkCorrectPick(childElement, attribute);
         }
       });
     });
@@ -91,6 +91,7 @@ export class BoardPicker implements IBoard {
       console.log('dobrze');
 
       this.setButtonToHiglight(childElement, CORRECT_PICK);
+
       this.resetBoardPatternHighlights();
 
       return true;
