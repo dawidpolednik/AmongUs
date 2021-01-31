@@ -58,6 +58,8 @@ export class BoardPicker implements IBoard {
           childElement.dispatchEvent(
             new CustomEvent('nextRound', { bubbles: true, detail: false })
           );
+          console.log('listOfSteps :>> ', listOfSteps);
+          console.log('this.listOfPicks :>> ', this.listOfPicks);
 
           if (
             this.isUserFinishedRound(listOfSteps) &&
@@ -65,7 +67,7 @@ export class BoardPicker implements IBoard {
             listOfSteps.length < numberOfSteps
           ) {
             this.resetData();
-            console.log('this.listOfPicks :>> ', this.listOfPicks);
+
             childElement.dispatchEvent(
               new CustomEvent('nextRound', { bubbles: true, detail: true })
             );
@@ -125,8 +127,13 @@ export class BoardPicker implements IBoard {
       this.resetBoardPickerHighlights();
 
       childElement.dispatchEvent(
+        new CustomEvent('nextRound', { bubbles: true, detail: false })
+      );
+
+      childElement.dispatchEvent(
         new CustomEvent('gameOver', { bubbles: true, detail: true })
       );
+
       return false;
     }
   };

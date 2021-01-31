@@ -12,6 +12,10 @@ const resetButton: HTMLButtonElement = document.getElementById(
 
 const playAgainButtons = document.querySelectorAll('.play-again');
 
+const gameOverPopupElement = document.querySelector('.lost-popup-container');
+
+const winPopupElement = document.querySelector('.win-popup-container');
+
 startButton.classList.add('onHover');
 
 const disableStartButton = () => {
@@ -19,20 +23,25 @@ const disableStartButton = () => {
   startButton.classList.remove('onHover');
 };
 
-const game = new Game();
-
 const enableStartButton = () => {
   startButton.disabled = false;
   startButton.classList.add('onHover');
 };
 
+let game;
+
 const playAgain = () => {
-  game.resetGame();
-  enableStartButton();
+  gameOverPopupElement.classList.remove('active');
+  winPopupElement.classList.remove('active');
+
+  location.reload();
 };
 
 startButton.addEventListener('click', () => {
   document.getElementById('steps-select').setAttribute('disabled', 'disabled');
+  game = new Game();
+
+  console.log('game :>> ', game);
   game.startGame();
   disableStartButton();
 });
