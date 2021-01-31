@@ -37,26 +37,40 @@ export class BoardPicker implements IBoard {
     }
   };
 
+  private isUserFinishedRound = (listOfSteps: number[]) => {
+    console.log(
+      'JSON.stringify(this.listOfPicks) === JSON.stringify(listOfSteps) :>> ',
+      JSON.stringify(this.listOfPicks) === JSON.stringify(listOfSteps)
+    );
+    return JSON.stringify(this.listOfPicks) === JSON.stringify(listOfSteps);
+  };
+
   public handleForUserSelectItems = (listOfSteps: number[]) => {
-    this.listOfButtonsWithAttributes.forEach(({ childElement, attribute }) => {
+    console.log(
+      ' this.listOfButtonsWithAttributes :>> ',
+      this.listOfButtonsWithAttributes
+    );
+    this.listOfButtonsWithAttributes.map(({ childElement, attribute }) => {
       childElement.className = INITIAL_CLASSNAME;
-      childElement.addEventListener('click', () => {
-        console.log('listOfSteps :>> ', listOfSteps);
+      childElement.addEventListener('click', e => {
+        e.cancelBubble = true;
+        console.log('this.listOfPicks :>> ', this.listOfPicks);
         if (this.listOfPicks.length <= listOfSteps.length) {
           const isUserCorrectPick = this.checkCorrectPick(
             childElement,
             attribute,
             listOfSteps
           );
+          childElement.dispatchEvent(
+            new CustomEvent('nextRound', { bubbles: true, detail: false })
+          );
 
-          console.log('this.listOfPicks.length :>> ', this.listOfPicks.length);
-          console.log('listOfSteps.length :>> ', listOfSteps.length);
-          console.log('isUserCorrectPick :>> ', isUserCorrectPick);
-          if (
-            this.listOfPicks.length === listOfSteps.length &&
-            isUserCorrectPick
-          ) {
+          console.log('listOfSteps :>> ', listOfSteps);
+          console.log('this.listOfPicks :>> ', this.listOfPicks);
+
+          if (this.isUserFinishedRound(listOfSteps) && isUserCorrectPick) {
             this.resetData();
+            console.log('this.listOfPicks :>> ', this.listOfPicks);
             childElement.dispatchEvent(
               new CustomEvent('nextRound', { bubbles: true, detail: true })
             );
@@ -67,6 +81,7 @@ export class BoardPicker implements IBoard {
   };
 
   private addPickToCheck = (attribute: number) => {
+    console.log('dodaje do tablicy');
     this.listOfPicks.push(attribute);
   };
 
@@ -91,7 +106,7 @@ export class BoardPicker implements IBoard {
     listOfSteps: number[]
   ): boolean => {
     this.addPickToCheck(attribute);
-    console.log('this.listOfPicks :>> ', this.listOfPicks);
+
     if (
       listOfSteps.includes(attribute) &&
       this.checkIndexPick(listOfSteps, attribute) ===

@@ -10,8 +10,6 @@ export class Game implements IGame {
     'steps-select'
   ) as HTMLSelectElement;
 
-  private boxElement = document.querySelector('box') as HTMLDivElement;
-
   public numberOfSteps: number = Number(
     this.selectElement.options[this.selectElement.selectedIndex].value
   );
@@ -28,11 +26,10 @@ export class Game implements IGame {
     if (this.boardPattern.listOfSteps.length < this.numberOfSteps) {
       this.startRound();
 
-      document.addEventListener('nextRound', (e: any) =>
-        e.detail
-          ? setTimeout(() => this.startRound(), 1000)
-          : console.log('przegrales')
-      );
+      document.addEventListener('nextRound', (e: any) => {
+        console.log('e.detail :>> ', e.detail);
+        e.detail === true && setTimeout(() => this.startRound(), 1000);
+      });
     }
   };
 
