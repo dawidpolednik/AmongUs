@@ -1,7 +1,7 @@
 @import './colors.scss';
 @import './fonts.scss';
 
-.win-popup-container {
+.lost-popup-container {
   position: fixed;
   top: 0;
   right: 0;
@@ -13,7 +13,7 @@
   }
 }
 
-.popup {
+.lost-popup {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -23,11 +23,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-image: url('../images//background2.jpg');
+  background: url('../images//background2.jpg');
   border: 0.5px solid $white;
 }
 
-.win-title {
+.lost-title {
   font-size: 50px;
   color: $white;
   padding-top: 25px;
@@ -35,10 +35,11 @@
   text-align: center;
 }
 
-.win-content {
-  font-size: 35px;
+.lost-content {
+  font-size: 30px;
   color: $white;
-  padding-top: 60px;
+  padding-top: 40px;
+  padding: 40px 15px 0;
   font-family: 'Montserrat-Light', sans-serif;
   text-align: center;
 }
@@ -49,11 +50,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.play-again {
-  cursor: pointer;
-  transition: 0.5s;
-  &:hover {
-    opacity: 0.6;
-  }
 }

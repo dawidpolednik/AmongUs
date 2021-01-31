@@ -1,5 +1,5 @@
 export interface IBoard {
-  numberOfSteps: number;
+  // numberOfSteps: number;
   // listOfSteps: number[];
 }
 

@@ -5,12 +5,9 @@ const INITIAL_CLASSNAME = 'field-pattern';
 
 const numberOfItems = 16;
 export class BoardPattern implements IBoard {
-  public numberOfSteps: number;
   public listOfSteps: number[] = [];
 
-  constructor(numberOfSteps: number) {
-    this.numberOfSteps = numberOfSteps;
-  }
+  constructor() {}
 
   private listOfButtons = [...document.querySelectorAll('.field-pattern')];
 
@@ -28,8 +25,8 @@ export class BoardPattern implements IBoard {
   addIndexLevelToListOfSteps = (newIndexLevel: number) =>
     this.listOfSteps.push(newIndexLevel);
 
-  showElementsWithIndexLevel = () => {
-    this.listOfSteps.forEach(indexLevel => {
+  showCombination = () => {
+    this.listOfSteps.map(indexLevel => {
       this.setButtonToHiglight(indexLevel);
       setTimeout(() => {
         this.resetBoardPatternHighlights();
@@ -40,7 +37,7 @@ export class BoardPattern implements IBoard {
   public initRound = () => {
     const indexLevel = this.setIndexLevel();
     this.addIndexLevelToListOfSteps(indexLevel);
-    this.showElementsWithIndexLevel();
+    this.showCombination();
   };
 
   public resetData = () => {
@@ -63,6 +60,4 @@ export class BoardPattern implements IBoard {
       ({ childElement }) => (childElement.className = INITIAL_CLASSNAME)
     );
   };
-
-  // public showAllStepsInRound =
 }

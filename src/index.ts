@@ -1,10 +1,6 @@
 import './styles/scss/main.scss';
 
-import '../src/styles/images/background.jpg';
-
 import { Game } from './ts/components/Game/Game';
-
-const game = new Game();
 
 const startButton: HTMLButtonElement = document.getElementById(
   'button-start'
@@ -14,6 +10,8 @@ const resetButton: HTMLButtonElement = document.getElementById(
   'button-reset'
 ) as HTMLButtonElement;
 
+const playAgainButtons = document.querySelectorAll('.play-again');
+
 startButton.classList.add('onHover');
 
 const disableStartButton = () => {
@@ -21,9 +19,16 @@ const disableStartButton = () => {
   startButton.classList.remove('onHover');
 };
 
+const game = new Game();
+
 const enableStartButton = () => {
   startButton.disabled = false;
   startButton.classList.add('onHover');
+};
+
+const playAgain = () => {
+  game.resetGame();
+  enableStartButton();
 };
 
 startButton.addEventListener('click', () => {
@@ -32,7 +37,6 @@ startButton.addEventListener('click', () => {
   disableStartButton();
 });
 
-resetButton.addEventListener('click', () => {
-  game.resetGame();
-  enableStartButton();
-});
+resetButton.addEventListener('click', playAgain);
+
+playAgainButtons.forEach(button => button.addEventListener('click', playAgain));

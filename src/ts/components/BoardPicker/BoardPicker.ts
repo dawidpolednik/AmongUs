@@ -7,12 +7,7 @@ const CORRECT_PICK = 'correct';
 const WRONG_PICK = 'wrong';
 
 export class BoardPicker implements IBoard {
-  public numberOfSteps: number;
   public listOfPicks: number[] = [];
-
-  constructor(numberOfSteps: number) {
-    this.numberOfSteps = numberOfSteps;
-  }
 
   private allButtonsNode = document.querySelectorAll('.field-game');
 
@@ -45,17 +40,16 @@ export class BoardPicker implements IBoard {
     return JSON.stringify(this.listOfPicks) === JSON.stringify(listOfSteps);
   };
 
-  public handleForUserSelectItems = (listOfSteps: number[]) => {
-    console.log(
-      ' this.listOfButtonsWithAttributes :>> ',
-      this.listOfButtonsWithAttributes
-    );
-    this.listOfButtonsWithAttributes.map(({ childElement, attribute }) => {
-      childElement.className = INITIAL_CLASSNAME;
-      childElement.addEventListener('click', e => {
-        e.cancelBubble = true;
-        console.log('this.listOfPicks :>> ', this.listOfPicks);
-        if (this.listOfPicks.length <= listOfSteps.length) {
+  private winPopupElement = document.querySelector('.win-popup-container');
+
+  public handleForUserSelectItems = (
+    listOfSteps: number[],
+    numberOfSteps: number
+  ) => {
+    if (this.listOfPicks.length <= listOfSteps.length) {
+      this.listOfButtonsWithAttributes.map(({ childElement, attribute }) => {
+        childElement.className = INITIAL_CLASSNAME;
+        childElement.addEventListener('click', () => {
           const isUserCorrectPick = this.checkCorrectPick(
             childElement,
             attribute,
@@ -65,19 +59,27 @@ export class BoardPicker implements IBoard {
             new CustomEvent('nextRound', { bubbles: true, detail: false })
           );
 
-          console.log('listOfSteps :>> ', listOfSteps);
-          console.log('this.listOfPicks :>> ', this.listOfPicks);
-
-          if (this.isUserFinishedRound(listOfSteps) && isUserCorrectPick) {
+          if (
+            this.isUserFinishedRound(listOfSteps) &&
+            isUserCorrectPick &&
+            listOfSteps.length < numberOfSteps
+          ) {
             this.resetData();
             console.log('this.listOfPicks :>> ', this.listOfPicks);
             childElement.dispatchEvent(
               new CustomEvent('nextRound', { bubbles: true, detail: true })
             );
+          } else if (
+            this.isUserFinishedRound(listOfSteps) &&
+            isUserCorrectPick &&
+            listOfSteps.length === numberOfSteps
+          ) {
+            console.log('wygrales gre');
+            this.winPopupElement.classList.add('active');
           }
-        }
+        });
       });
-    });
+    }
   };
 
   private addPickToCheck = (attribute: number) => {
@@ -112,8 +114,6 @@ export class BoardPicker implements IBoard {
       this.checkIndexPick(listOfSteps, attribute) ===
         this.checkIndexPick(this.listOfPicks, attribute)
     ) {
-      console.log('dobrze');
-
       this.setButtonToHiglight(childElement, CORRECT_PICK);
 
       this.resetBoardPickerHighlights();
@@ -123,11 +123,9 @@ export class BoardPicker implements IBoard {
       this.setButtonToHiglight(childElement, WRONG_PICK);
 
       this.resetBoardPickerHighlights();
-      console.log('źle');
 
-      this.resetData();
       childElement.dispatchEvent(
-        new CustomEvent('nextRound', { bubbles: true, detail: false })
+        new CustomEvent('gameOver', { bubbles: true, detail: true })
       );
       return false;
     }
@@ -135,5 +133,6 @@ export class BoardPicker implements IBoard {
 
   public resetData = () => {
     this.listOfPicks = [];
+    this.winPopupElement.classList.remove('active');
   };
 }
