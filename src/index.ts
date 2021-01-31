@@ -23,25 +23,17 @@ const disableStartButton = () => {
   startButton.classList.remove('onHover');
 };
 
-const enableStartButton = () => {
-  startButton.disabled = false;
-  startButton.classList.add('onHover');
-};
-
-let game;
+let game: Game;
 
 const playAgain = () => {
   gameOverPopupElement.classList.remove('active');
   winPopupElement.classList.remove('active');
-
   location.reload();
 };
 
 startButton.addEventListener('click', () => {
   document.getElementById('steps-select').setAttribute('disabled', 'disabled');
   game = new Game();
-
-  console.log('game :>> ', game);
   game.startGame();
   disableStartButton();
 });

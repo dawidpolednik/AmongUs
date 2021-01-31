@@ -7,8 +7,6 @@ const numberOfItems = 16;
 export class BoardPattern implements IBoard {
   public listOfSteps: number[] = [];
 
-  constructor() {}
-
   private listOfButtons = [...document.querySelectorAll('.field-pattern')];
 
   private listOfButtonsWithAttributes: IButtonData[] = this.listOfButtons.map(
@@ -24,27 +22,20 @@ export class BoardPattern implements IBoard {
     '.lost-popup-container'
   );
 
-  setIndexLevel = () => Math.floor(Math.random() * numberOfItems) + 1;
+  private setIndexLevel = () => Math.floor(Math.random() * numberOfItems) + 1;
 
-  addIndexLevelToListOfSteps = (newIndexLevel: number) =>
+  private addIndexLevelToListOfSteps = (newIndexLevel: number) =>
     this.listOfSteps.push(newIndexLevel);
 
-  public showCombination = () => {
-    this.listOfSteps.forEach((indexLevel, index) => {
-      setTimeout(() => {
-        this.setButtonToHiglight(indexLevel);
-        setTimeout(() => {
-          this.resetBoardPatternHighlights();
-        }, 500);
-      }, 1000 * index);
-    });
-  };
+  private searchButtonToHighlight = (indexLevel: number) =>
+    this.listOfButtonsWithAttributes.find(
+      ({ attribute }) => attribute === indexLevel
+    );
 
-  public initRound = () => {
-    const indexLevel = this.setIndexLevel();
-    this.addIndexLevelToListOfSteps(indexLevel);
-    this.showCombination();
-    this.toggleButtonsToRound(false);
+  private setButtonToHiglight = (indexLevel: number) => {
+    this.searchButtonToHighlight(
+      indexLevel
+    ).childElement.className += ` ${ACTIVE}`;
   };
 
   private toggleButtonsToRound = (isDisabled: boolean) => {
@@ -52,25 +43,39 @@ export class BoardPattern implements IBoard {
       '.field-game'
     ) as NodeListOf<HTMLButtonElement>;
     gameFields.forEach(button => {
-      button.className = 'field-game';
+      button.className = isDisabled ? 'field-game disabled' : 'field-game';
       button.disabled = isDisabled;
     });
+  };
+
+  public showCombination = (numberOfSteps: number) => {
+    this.listOfSteps.forEach((indexLevel, index) => {
+      setTimeout(() => {
+        this.setButtonToHiglight(indexLevel);
+        setTimeout(() => {
+          this.resetBoardPatternHighlights();
+        }, 500);
+
+        if (
+          index + 1 === this.listOfSteps.length &&
+          this.listOfSteps.length <= numberOfSteps
+        ) {
+          this.toggleButtonsToRound(false);
+        }
+      }, 1000 * index);
+    });
+  };
+
+  public initRound = (numberOfSteps: number) => {
+    this.toggleButtonsToRound(true);
+    const indexLevel = this.setIndexLevel();
+    this.addIndexLevelToListOfSteps(indexLevel);
+    this.showCombination(numberOfSteps);
   };
 
   public resetData = () => {
     this.listOfSteps = [];
     this.gameOverPopupElement.classList.remove('active');
-  };
-
-  searchButtonToHighlight = (indexLevel: number) =>
-    this.listOfButtonsWithAttributes.find(
-      ({ attribute }) => attribute === indexLevel
-    );
-
-  setButtonToHiglight = (indexLevel: number) => {
-    this.searchButtonToHighlight(
-      indexLevel
-    ).childElement.className += ` ${ACTIVE}`;
   };
 
   public resetBoardPatternHighlights = () => {

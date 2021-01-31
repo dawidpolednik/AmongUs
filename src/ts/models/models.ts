@@ -1,6 +1,12 @@
 export interface IBoard {
-  // numberOfSteps: number;
-  // listOfSteps: number[];
+  resetData: () => void;
+}
+
+export interface IGame {
+  numberOfSteps: number;
+  startGame: () => void;
+  stopGame: () => void;
+  resetGame: () => void;
 }
 
 export interface IButtonData {

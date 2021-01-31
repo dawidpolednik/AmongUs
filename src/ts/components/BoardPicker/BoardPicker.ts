@@ -22,13 +22,8 @@ export class BoardPicker implements IBoard {
     }
   );
 
-  private isUserFinishedRound = (listOfSteps: number[]) => {
-    console.log(
-      'JSON.stringify(this.listOfPicks) === JSON.stringify(listOfSteps) :>> ',
-      JSON.stringify(this.listOfPicks) === JSON.stringify(listOfSteps)
-    );
-    return JSON.stringify(this.listOfPicks) === JSON.stringify(listOfSteps);
-  };
+  private isUserFinishedRound = (listOfSteps: number[]) =>
+    JSON.stringify(this.listOfPicks) === JSON.stringify(listOfSteps);
 
   private winPopupElement = document.querySelector('.win-popup-container');
 
@@ -45,20 +40,14 @@ export class BoardPicker implements IBoard {
             attribute,
             listOfSteps
           );
-          childElement.dispatchEvent(
-            new CustomEvent('nextRound', { bubbles: true, detail: false })
-          );
-
+          this.dispatchEvent('nextRound', childElement, false);
           if (
             this.isUserFinishedRound(listOfSteps) &&
             isUserCorrectPick &&
             listOfSteps.length < numberOfSteps
           ) {
             this.resetData();
-
-            childElement.dispatchEvent(
-              new CustomEvent('nextRound', { bubbles: true, detail: true })
-            );
+            this.dispatchEvent('nextRound', childElement, true);
           } else if (
             this.isUserFinishedRound(listOfSteps) &&
             isUserCorrectPick &&
@@ -96,6 +85,16 @@ export class BoardPicker implements IBoard {
     }, 500);
   };
 
+  private dispatchEvent = (
+    eventName: string,
+    childElement: Element,
+    flag: boolean
+  ) => {
+    childElement.dispatchEvent(
+      new CustomEvent(eventName, { bubbles: true, detail: flag })
+    );
+  };
+
   private checkCorrectPick = (
     childElement: Element,
     attribute: number,
@@ -109,23 +108,13 @@ export class BoardPicker implements IBoard {
         this.checkIndexPick(this.listOfPicks, attribute)
     ) {
       this.setButtonToHiglight(childElement, CORRECT_PICK);
-
       this.resetBoardPickerHighlights();
-
       return true;
     } else {
       this.setButtonToHiglight(childElement, WRONG_PICK);
-
       this.resetBoardPickerHighlights();
-
-      childElement.dispatchEvent(
-        new CustomEvent('nextRound', { bubbles: true, detail: false })
-      );
-
-      childElement.dispatchEvent(
-        new CustomEvent('gameOver', { bubbles: true, detail: true })
-      );
-
+      this.dispatchEvent('nextRound', childElement, false);
+      this.dispatchEvent('gameOver', childElement, true);
       return false;
     }
   };

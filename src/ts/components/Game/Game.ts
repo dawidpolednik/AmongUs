@@ -1,9 +1,6 @@
 import { BoardPicker } from '../BoardPicker/BoardPicker';
 import { BoardPattern } from '../BoardPattern/BoardPattern';
-
-interface IGame {
-  numberOfSteps: number;
-}
+import { IGame } from '../../models/models';
 
 export class Game implements IGame {
   private selectElement = document.getElementById(
@@ -14,21 +11,25 @@ export class Game implements IGame {
     '.lost-popup-container'
   );
 
+  constructor() {
+    this.selectElement.addEventListener('change', () => {
+      this.numberOfSteps = Number(
+        this.selectElement.options[this.selectElement.selectedIndex].value
+      );
+    });
+  }
+
   public numberOfSteps: number = Number(
     this.selectElement.options[this.selectElement.selectedIndex].value
   );
-
-  public listOfSteps: number[] = [];
-
-  public listOfPicks: number[] = [];
 
   private boardPattern = new BoardPattern();
 
   private boardPicker = new BoardPicker();
 
-  startGame = () => {
+  public startGame = () => {
     if (this.boardPattern.listOfSteps.length < this.numberOfSteps) {
-      this.boardPattern.initRound();
+      this.boardPattern.initRound(this.numberOfSteps);
 
       this.boardPicker.handleForUserSelectItems(
         this.boardPattern.listOfSteps,
@@ -38,7 +39,10 @@ export class Game implements IGame {
       document.addEventListener('nextRound', (e: any) => {
         e.detail === true &&
           this.boardPattern.listOfSteps.length < this.numberOfSteps &&
-          setTimeout(this.boardPattern.initRound, 1000);
+          setTimeout(
+            () => this.boardPattern.initRound(this.numberOfSteps),
+            1000
+          );
       });
 
       document.addEventListener('gameOver', (e: any) => {
@@ -47,28 +51,20 @@ export class Game implements IGame {
     }
   };
 
-  stopGame = () => {
-    this.boardPattern.showCombination();
+  public stopGame = () => {
+    this.boardPattern.showCombination(this.numberOfSteps);
     setTimeout(
       this.showGameOverInfo,
       this.boardPattern.listOfSteps.length * 1000
     );
   };
 
-  showGameOverInfo = () => {
+  private showGameOverInfo = () => {
     this.gameOverPopupElement.classList.add('active');
   };
 
-  resetGame = () => {
-    this.selectElement.removeAttribute('disabled');
-    this.selectElement.selectedIndex = 4;
+  public resetGame = () => {
     this.boardPattern.resetData();
     this.boardPicker.resetData();
   };
-
-  handleChangeSteps = this.selectElement.addEventListener('change', e => {
-    this.numberOfSteps = Number(
-      this.selectElement.options[this.selectElement.selectedIndex].value
-    );
-  });
 }

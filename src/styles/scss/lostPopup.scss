@@ -1,5 +1,6 @@
 @import './colors.scss';
 @import './fonts.scss';
+@import './variables.scss';
 
 .lost-popup-container {
   position: fixed;
@@ -23,7 +24,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: url('../images//background2.jpg');
+  background: url('../images/background2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   border: 0.5px solid $white;
 }
 
@@ -33,6 +36,9 @@
   padding-top: 25px;
   font-family: 'Montserrat-Regular', sans-serif;
   text-align: center;
+  @include breakpoint-only('md') {
+    font-size: 40px;
+  }
 }
 
 .lost-content {
@@ -42,6 +48,9 @@
   padding: 40px 15px 0;
   font-family: 'Montserrat-Light', sans-serif;
   text-align: center;
+  @include breakpoint-only('md') {
+    font-size: 25px;
+  }
 }
 
 .button-container {
