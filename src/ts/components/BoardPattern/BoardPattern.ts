@@ -20,17 +20,23 @@ export class BoardPattern implements IBoard {
     }
   );
 
+  private gameOverPopupElement = document.querySelector(
+    '.lost-popup-container'
+  );
+
   setIndexLevel = () => Math.floor(Math.random() * numberOfItems) + 1;
 
   addIndexLevelToListOfSteps = (newIndexLevel: number) =>
     this.listOfSteps.push(newIndexLevel);
 
-  showCombination = () => {
-    this.listOfSteps.map(indexLevel => {
-      this.setButtonToHiglight(indexLevel);
+  public showCombination = () => {
+    this.listOfSteps.forEach((indexLevel, index) => {
       setTimeout(() => {
-        this.resetBoardPatternHighlights();
-      }, 500);
+        this.setButtonToHiglight(indexLevel);
+        setTimeout(() => {
+          this.resetBoardPatternHighlights();
+        }, 500);
+      }, 1000 * index);
     });
   };
 
@@ -38,10 +44,22 @@ export class BoardPattern implements IBoard {
     const indexLevel = this.setIndexLevel();
     this.addIndexLevelToListOfSteps(indexLevel);
     this.showCombination();
+    this.toggleButtonsToRound(false);
+  };
+
+  private toggleButtonsToRound = (isDisabled: boolean) => {
+    const gameFields: NodeListOf<HTMLButtonElement> = document.querySelectorAll(
+      '.field-game'
+    ) as NodeListOf<HTMLButtonElement>;
+    gameFields.forEach(button => {
+      button.className = 'field-game';
+      button.disabled = isDisabled;
+    });
   };
 
   public resetData = () => {
     this.listOfSteps = [];
+    this.gameOverPopupElement.classList.remove('active');
   };
 
   searchButtonToHighlight = (indexLevel: number) =>

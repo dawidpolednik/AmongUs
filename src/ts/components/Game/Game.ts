@@ -10,6 +10,10 @@ export class Game implements IGame {
     'steps-select'
   ) as HTMLSelectElement;
 
+  private gameOverPopupElement = document.querySelector(
+    '.lost-popup-container'
+  );
+
   public numberOfSteps: number = Number(
     this.selectElement.options[this.selectElement.selectedIndex].value
   );
@@ -22,10 +26,6 @@ export class Game implements IGame {
 
   private boardPicker = new BoardPicker();
 
-  private gameOverPopupElement = document.querySelector(
-    '.lost-popup-container'
-  );
-
   startGame = () => {
     if (this.boardPattern.listOfSteps.length < this.numberOfSteps) {
       this.boardPattern.initRound();
@@ -36,7 +36,6 @@ export class Game implements IGame {
       );
 
       document.addEventListener('nextRound', (e: any) => {
-        console.log('e.detail :>> ', e.detail);
         e.detail === true &&
           this.boardPattern.listOfSteps.length < this.numberOfSteps &&
           setTimeout(this.boardPattern.initRound, 1000);
@@ -50,7 +49,10 @@ export class Game implements IGame {
 
   stopGame = () => {
     this.boardPattern.showCombination();
-    setTimeout(this.showGameOverInfo, 2000);
+    setTimeout(
+      this.showGameOverInfo,
+      this.boardPattern.listOfSteps.length * 1000
+    );
   };
 
   showGameOverInfo = () => {
@@ -62,7 +64,6 @@ export class Game implements IGame {
     this.selectElement.selectedIndex = 4;
     this.boardPattern.resetData();
     this.boardPicker.resetData();
-    this.gameOverPopupElement.classList.remove('active');
   };
 
   handleChangeSteps = this.selectElement.addEventListener('change', e => {

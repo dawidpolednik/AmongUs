@@ -22,16 +22,6 @@ export class BoardPicker implements IBoard {
     }
   );
 
-  private setStylesWhenRoundStart = (listOfSteps: number[]) => {
-    if (this.listOfPicks.length < listOfSteps.length) {
-      this.listOfButtonsWithAttributes.forEach(({ childElement }) => {
-        childElement.addEventListener('mouseover', () => {
-          childElement.className += ' hoverElement';
-        });
-      });
-    }
-  };
-
   private isUserFinishedRound = (listOfSteps: number[]) => {
     console.log(
       'JSON.stringify(this.listOfPicks) === JSON.stringify(listOfSteps) :>> ',
@@ -58,8 +48,6 @@ export class BoardPicker implements IBoard {
           childElement.dispatchEvent(
             new CustomEvent('nextRound', { bubbles: true, detail: false })
           );
-          console.log('listOfSteps :>> ', listOfSteps);
-          console.log('this.listOfPicks :>> ', this.listOfPicks);
 
           if (
             this.isUserFinishedRound(listOfSteps) &&
@@ -76,8 +64,7 @@ export class BoardPicker implements IBoard {
             isUserCorrectPick &&
             listOfSteps.length === numberOfSteps
           ) {
-            console.log('wygrales gre');
-            this.winPopupElement.classList.add('active');
+            this.showWinnerPopup();
           }
         });
       });
@@ -85,8 +72,13 @@ export class BoardPicker implements IBoard {
   };
 
   private addPickToCheck = (attribute: number) => {
-    console.log('dodaje do tablicy');
     this.listOfPicks.push(attribute);
+  };
+
+  private showWinnerPopup = () => {
+    setTimeout(() => {
+      this.winPopupElement.classList.add('active');
+    }, 1000);
   };
 
   private checkIndexPick = (list: number[], attribute: number) =>
@@ -98,7 +90,7 @@ export class BoardPicker implements IBoard {
 
   private resetBoardPickerHighlights = () => {
     setTimeout(() => {
-      this.listOfButtonsWithAttributes.map(
+      this.listOfButtonsWithAttributes.forEach(
         ({ childElement }) => (childElement.className = INITIAL_CLASSNAME)
       );
     }, 500);
