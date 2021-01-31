@@ -2,7 +2,7 @@
   "name": "game",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.ts",
+  "main": "./src/index.html",
   "dependencies": {
     "scss": "^0.2.4"
   },
