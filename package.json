@@ -15,10 +15,10 @@
     "typescript": "^4.1.3"
   },
   "scripts": {
-    "dev": "parcel home.html",
-    "build": "parcel build home.html",
+    "dev": "parcel index.html",
+    "build": "parcel build index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "parcel build home.html"
+    "heroku-postbuild": "parcel build index.html"
   },
   "keywords": [],
   "author": "",
