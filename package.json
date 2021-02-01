@@ -21,5 +21,6 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "heroku-postbuild": "parcel build src/index.html"
 }
